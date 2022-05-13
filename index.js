@@ -49,7 +49,10 @@ const startGame = () => {
     lightsGameOn(squareGenerator(5), 500);
 }
 
-//lightsGameOn(squareGenerator(10), 1000);
+lightsGameOn(squareGenerator(10), 1000);
 
 //lightsSequence(80);
+
+
+
 
