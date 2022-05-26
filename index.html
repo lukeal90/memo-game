@@ -10,7 +10,9 @@
     <title>Memo Game</title>
 </head>
 <body>
+  
     <audio src="square.wav" id="audio"></audio>
+    <audio src="uhoh.wav" id="audioError"></audio>
     <section class="titles">
         <h1 class="title">Memo Game</h1>
         <h2 class="title2">¡Bienvenido al juego de la memoria!</h2>
@@ -18,15 +20,16 @@
 
     <section class="tablero">
         <button class="startButton" type="button" onclick="startGame()">START</button>
-        
+
         <select name="select" id="difficulty">
             <option selected disabled selected>Seleccione dificultad</option>
             <option value="5" >Facil</option>
-            <option value="8" >Normal</option>
-            <option value="12">Dificil</option>
+            <option value="7" >Normal</option>
+            <option value="10">Dificil</option>
           </select>
 
-        <div class="grilla">
+        <div id="grilla">
+
             <div class="cuadrado" id="1"></div>
             <div class="cuadrado" id="2"></div>
             <div class="cuadrado" id="3"></div>
