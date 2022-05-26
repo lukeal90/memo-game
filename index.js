@@ -67,8 +67,6 @@ const lightsGame = (index, time) => {
     ) 
 }
 
-
-// Cambia el color del cuadradrado
 const changeColor = (square, error = false) => {
     if(!error){
         let audio = document.getElementById("audio");
@@ -79,7 +77,6 @@ const changeColor = (square, error = false) => {
         let audio = document.getElementById("audioError");
         audio.play()
     }
-
 }
 
 // Resetea todas las luces cuando se pone Start
@@ -93,6 +90,10 @@ const resetGameColor = () => {
 // Secuencia animada del juego
 const lightsSequence = async (time) =>{
     let i = 1;
+
+    if(time == 0){
+        return
+    }
     while(i <= 16){
         let index = i.toString();
         await lightsGame(i, time);
