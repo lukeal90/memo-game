@@ -73,9 +73,6 @@ const lightsGame = (index, time) => {
 // Cambia el color del cuadradrado
 const changeColor = (square, error = false) => {
     if(!error){
-       let audio = document.getElementById("audio");
-const changeColor = (square, error = false) => {
-    if(!error){
         let audio = document.getElementById("audio");
         square.className = square.className == 'cuadrado' ? 'cuadradoOn' : 'cuadrado';
         square.className == 'cuadradoOn' ? audio.play() : false;
@@ -83,14 +80,6 @@ const changeColor = (square, error = false) => {
         square.className = 'cuadradoError';
         let audio = document.getElementById("audioError");
         audio.play()
-    }
-}
-
-// Resetea todas las luces cuando se pone Start
-const resetGameColor = () => {
-    for (let i = 1; i < 16; i++) {
-        let square = document.getElementById(i);
-        square.className = 'cuadrado'
     }
 }
 
@@ -121,8 +110,6 @@ const lightsSequence = async (time) =>{
 const squareGenerator = (cantSquares) => {
     return Array.from({length: cantSquares}, () => Math.floor(Math.random() * 16 + 1));
 }
-
-lightsGameOn(squareGenerator(10), 1000);
       
 //lightsSequence(80);
 
