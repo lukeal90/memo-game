@@ -126,3 +126,34 @@ button:hover{
     border-radius: 10%;
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;    
 }
+
+.cuadradoError {
+    width:  100px;
+    height: 100px;
+    transition: all 0.1s;
+    background-color: #ff0000;
+    border-radius: 10%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #2d0602 0 -1px 9px, #ff0000 0 2px 12px;    
+}
+
+#difficulty{
+    width: 20%;
+    margin: auto;
+}
+
+.counter-inside{
+  background-color:aqua;
+  width:300px;
+  padding: 10px 20px;
+  margin: 20% auto;
+  position: relative;
+}
+
+.counter{
+  background-color: rgba(0,0,0,.8);
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;  
+}
