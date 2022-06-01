@@ -7,10 +7,11 @@ selectDifficulty.addEventListener('change', () => {
 });
 
 // Funcion start game
-const startGame = () => {
+const startGame = async () => {
     resetGameColor();
-    // Genera los cuadrados en base a la dificultad
+    await startCounter();
     let positions = [];
+
     positions = squareGenerator(difficulty);
     const grilla = document.getElementById('grilla');
 
@@ -21,7 +22,8 @@ const startGame = () => {
     // To do :hasta que no termine la secuencia que no continue este paso
     // y no pueda clickear nada
 
-    grilla.addEventListener('click', (c) => {
+    // Cambiar por onClick
+    grilla.onclick = (c) => {
         let positionToCompare = positions.shift();
         console.log("Es esta posicion " , positionToCompare)
         let positionClicked = c.target;
@@ -29,11 +31,12 @@ const startGame = () => {
         console.log("Quedan " ,positions)
         if(positionClicked.id == positionToCompare){
             changeColor(positionClicked)
+            positions.length == 0 ? console.log('Ganaste!') : false;
         }else{
             changeColor(positionClicked, true)
             console.log("Perdiste! Volve a intentar!")
         }        
-    });
+    };
 }
 
 // No funca ERROR RARO ver mañana. 
@@ -56,7 +59,7 @@ const lightsGameOn = async (positions, difficultyTime) => {
 
 // Logica de cambio de color de los cuadrados
 const lightsGame = (index, time) => {
-        return new Promise( (resolve, reject )=>{
+        return new Promise( (resolve)=>{
             let square = document.getElementById(index);
             setTimeout(changeColor.bind(null, square), 1000);
             setTimeout(changeColor.bind(null, square), 1100);
@@ -67,6 +70,10 @@ const lightsGame = (index, time) => {
     ) 
 }
 
+// Cambia el color del cuadradrado
+const changeColor = (square, error = false) => {
+    if(!error){
+       let audio = document.getElementById("audio");
 const changeColor = (square, error = false) => {
     if(!error){
         let audio = document.getElementById("audio");
@@ -76,6 +83,14 @@ const changeColor = (square, error = false) => {
         square.className = 'cuadradoError';
         let audio = document.getElementById("audioError");
         audio.play()
+    }
+}
+
+// Resetea todas las luces cuando se pone Start
+const resetGameColor = () => {
+    for (let i = 1; i < 16; i++) {
+        let square = document.getElementById(i);
+        square.className = 'cuadrado'
     }
 }
 
@@ -107,6 +122,8 @@ const squareGenerator = (cantSquares) => {
     return Array.from({length: cantSquares}, () => Math.floor(Math.random() * 16 + 1));
 }
 
+lightsGameOn(squareGenerator(10), 1000);
+      
 //lightsSequence(80);
 
 // To Do:
@@ -122,6 +139,37 @@ const squareGenerator = (cantSquares) => {
 
 // Que no se puede apretar cuadrados hasta que termine la secuencia.
 
+// Si pasa de nivel aumentar la velocidad ( 5 levels por dificultad )
+
+const secondsCounter = async (counterModal) => {
+    let second = 3;
+    return await new Promise(resolve => setInterval(() => {
+        if(second > 0){
+            counterModal.textContent = second;
+            second--
+        }else{
+            clearInterval()
+            resolve();
+        }        
+    },1000));
+}
+
+const startCounter = async () => {
+    let counterModal = document.createElement('div');
+    counterModal.className = 'counter';
+    let modalInside = document.createElement('div');
+    modalInside.className = 'counter-inside';
+    let seconds = document.createTextNode("");
+    modalInside.appendChild(seconds);
+    counterModal.appendChild(modalInside);
+
+    document.body.appendChild(counterModal)
+    await secondsCounter(modalInside);
+
+    counterModal = document.getElementsByClassName('counter')
+    console.log(counterModal)
+    document.body.removeChild(counterModal)
+}
 // Agregar limite de tiempo para apretar cuadrado, sino pierde. 
 
 // Secuencia de 3 segundos para arrancar el juego.
@@ -129,3 +177,4 @@ const squareGenerator = (cantSquares) => {
 // Guardar nombre de la persona y puntaje.
 
 // Si pasa de nivel aumentar la velocidad ( 5 levels por dificultad )
+
