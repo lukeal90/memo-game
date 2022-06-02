@@ -142,18 +142,25 @@ button:hover{
 }
 
 .counter-inside{
-  background-color:aqua;
-  width:300px;
+  background-color:rgba(89, 255, 0, 0.528);
+  width:200px;
+  height: 200px;
   padding: 10px 20px;
   margin: 20% auto;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8em;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-.counter{
-  background-color: rgba(0,0,0,.8);
+#counter{
+  background-color: rgba(0, 0, 0, 0.5);
   position:fixed;
-  top:0;
+  top:150px;
   right:0;
   bottom:0;
   left:0;  
 }
+
