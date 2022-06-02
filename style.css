@@ -38,7 +38,7 @@ button:hover{
     outline: 0;
 }
 
-.startButton {
+#startButton {
     border-color: #ABFF00;
     color: #fff;
     box-shadow: 0 0 40px 40px #aaff0053 inset, 0 0 0 0 #aaff0053;
@@ -46,11 +46,11 @@ button:hover{
     margin: auto;
 }
 
-.startButton:hover{
+#startButton:hover{
     box-shadow: 0 0 10px 0 #ABFF00 inset, 0 0 10px 4px #ABFF00;    
 }
 
-.startButton:active {
+#startButton:active {
     position: relative;
     top: 1px;
 }

@@ -1,4 +1,4 @@
-export const levels = [
+export const difficultys = [
     {
         difficulty: 'easy',
         props: [{

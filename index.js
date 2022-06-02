@@ -1,111 +1,4 @@
-// import {levels} from './difficulty.js'
-// import {startGame} from './game.js'
-
-// console.log(levels)
-const difficultys = [
-    {
-        difficulty: 'easy',
-        props: [{
-                nivel: 1,
-                speed: 500,
-                squareCant: 3,
-                score: 100
-            },
-            {
-                nivel: 2,
-                speed: 400,
-                squareCant: 3,
-                score: 150
-            },
-            {
-                nivel: 3,
-                speed: 400,
-                squareCant: 4,
-                score: 225
-            },
-            {
-                nivel: 4,
-                speed: 300,
-                squareCant: 4,
-                score: 275
-            },
-            {
-                nivel: 5,
-                speed: 300,
-                squareCant: 5,
-                score: 300
-            },
-        ]
-    },
-    {
-        difficulty: 'normal',
-        props: [{
-                nivel: 1,
-                speed: 500,
-                squareCant: 5,
-                score: 300
-            },
-            {
-                nivel: 2,
-                speed: 400,
-                squareCant: 5,
-                score: 350
-            },
-            {
-                nivel: 3,
-                speed: 400,
-                squareCant: 6,
-                score: 400
-            },
-            {
-                nivel: 4,
-                speed: 300,
-                squareCant: 6,
-                score: 450
-            },
-            {
-                nivel: 5,
-                speed: 300,
-                squareCant: 7,
-                score: 500
-            },
-        ]
-    },
-    {
-        difficulty: 'hard',
-        props: [{
-                nivel: 1,
-                speed: 500,
-                squareCant: 7,
-                score: 500
-            },
-            {
-                nivel: 2,
-                speed: 400,
-                squareCant: 7,
-                score: 600
-            },
-            {
-                nivel: 3,
-                speed: 400,
-                squareCant: 8,
-                score: 700
-            },
-            {
-                nivel: 4,
-                speed: 300,
-                squareCant: 8,
-                score: 800
-            },
-            {
-                nivel: 5,
-                speed: 300,
-                squareCant: 9,
-                score: 1000
-            },
-        ]
-    },    
-]
+import {difficultys} from './difficulty.js'
 
 // Seleccion de dificultad
 let selectDifficulty = document.getElementById('difficulty');
@@ -117,8 +10,12 @@ selectDifficulty.addEventListener('change', () => {
 
 window.localStorage.clear();
 
+document.getElementById('startButton').addEventListener('click', function () {
+    startGame(difficulty);
+})
+
 //Funcion start game
-const startGame = async () => {
+const startGame = async (difficulty) => {
     const player = "Lucas"
     savePlayerData(player,0,0);
     const maxLevel = difficultys[difficulty].props.length;
@@ -150,7 +47,7 @@ const startGame = async () => {
         
     }
     console.log("Termino el juego")  
-  //  await resetGameColor(2000);
+    //await resetGameColor(2000);
     console.log("termino de resetear color")
 }
 
@@ -233,7 +130,7 @@ const changeColor = (square, error = false) => {
 // Resetea todas las luces cuando se pone Start
 const resetGameColor = (time) => {
     return new Promise((resolve) => {
-        for (let i = 1; i < 16; i++) {
+        for (let i = 1; i <= 16; i++) {
             let square = document.getElementById(i);
             square.className = 'cuadrado'
         }
