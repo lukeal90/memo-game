@@ -1,24 +1,35 @@
 import {difficultys} from './difficulty.js'
 
+// Limpiamos el estorage
+window.localStorage.clear();
 // Seleccion de dificultad
 let selectDifficulty = document.getElementById('difficulty');
 let difficulty = 0;
+// Seleccion nombre del jugador
+let selectPlayerName = document.getElementById('playerName');
+let playerName = "";
 
 selectDifficulty.addEventListener('change', () => {
     difficulty = parseInt(selectDifficulty.value);
 });
 
-window.localStorage.clear();
+selectPlayerName.addEventListener('change', () => {
+    playerName = selectPlayerName.value;
+});
 
 document.getElementById('startButton').addEventListener('click', function () {
     startGame(difficulty);
 })
 
+document.getElementById('playerFormButton').addEventListener('click', function () {
+    createPlayer(playerName,0,0);
+    changePlayerInfoTable(playerName,0,0);
+})
 //Funcion start game
 const startGame = async (difficulty) => {
-    const player = "Lucas"
-    savePlayerData(player,0,0);
+
     const maxLevel = difficultys[difficulty].props.length;
+    let player = localStorage.getItem('player');
     let positions = [];
     let difficultySelected = difficultys[difficulty];
     let level = 1;
@@ -42,34 +53,49 @@ const startGame = async (difficulty) => {
             !correctPosition ? playerLoose = true : false;
         }
         let score = difficultySelected.props[level-1].score;
-        savePlayerData(player,score,1);
+        console.log(score)
+        savePlayerData(score,level);
         level+= 1;
-        
     }
+
     console.log("Termino el juego")  
     //await resetGameColor(2000);
     console.log("termino de resetear color")
 }
 
 const createPlayer = (name,score,level) => {
-    return {
+    let player = {
         name: name,
         score: score,
         levelsPassed: level
     }
+    window.localStorage.setItem('player', JSON.stringify(player));
 }
 
-const savePlayerData = (playerName, score, level) => {
+const savePlayerData = (score, level) => {
     let playerSaved = localStorage.getItem('player');
+    playerSaved = JSON.parse(playerSaved);
 
-    if(playerSaved == null){
-        playerSaved = createPlayer(playerName, score, level);
-    }else{
-        playerSaved = JSON.parse(playerSaved);
-        playerSaved['score'] = playerSaved['score'] + score;
-        playerSaved['levelsPassed'] = playerSaved['levelsPassed'] + level;
-    }
-    window.localStorage.setItem('player', JSON.stringify(playerSaved));
+    playerSaved['score'] = playerSaved['score'] + score;
+    playerSaved['levelsPassed'] = level;
+    console.log(score);
+    changePlayerInfoTable(
+        playerSaved['name'],
+        playerSaved['score'],
+        playerSaved['levelsPassed']
+        );
+    
+    window.localStorage.setItem('player', JSON.stringify(playerSaved));    
+}
+
+const changePlayerInfoTable =  (player, score, level) => {
+    let playerName = document.getElementById('playerInfoName');
+    let playerScore = document.getElementById('playerInfoScore');
+    let playerLevel = document.getElementById('playerInfoLevel');
+
+    playerName.textContent = player;
+    playerScore.textContent = score;
+    playerLevel.textContent = level;
 }
 
 const waitForClicks = (positions, grilla) => {
@@ -208,6 +234,7 @@ const startCounter = async () => {
     counterModal.remove();
     //document.body.removeChild(counterModal)
 }
+
 // Agregar limite de tiempo para apretar cuadrado, sino pierde. 
 
 // Secuencia de 3 segundos para arrancar el juego.
