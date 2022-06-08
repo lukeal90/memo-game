@@ -25,9 +25,10 @@ document.getElementById('playerFormButton').addEventListener('click', function (
     createPlayer(playerName,0,0);
     changePlayerInfoTable(playerName,0,0);
 })
+
 //Funcion start game
 const startGame = async (difficulty) => {
-
+    lightsSequence(0);
     const maxLevel = difficultys[difficulty].props.length;
     let player = localStorage.getItem('player');
     let positions = [];
@@ -53,9 +54,12 @@ const startGame = async (difficulty) => {
             !correctPosition ? playerLoose = true : false;
         }
         let score = difficultySelected.props[level-1].score;
-        console.log(score)
-        savePlayerData(score,level);
-        level+= 1;
+        
+        if(!playerLoose) {
+            savePlayerData(score,level);
+            level+= 1;
+        }
+
     }
 
     console.log("Termino el juego")  
@@ -75,10 +79,9 @@ const createPlayer = (name,score,level) => {
 const savePlayerData = (score, level) => {
     let playerSaved = localStorage.getItem('player');
     playerSaved = JSON.parse(playerSaved);
-
     playerSaved['score'] = playerSaved['score'] + score;
     playerSaved['levelsPassed'] = level;
-    console.log(score);
+
     changePlayerInfoTable(
         playerSaved['name'],
         playerSaved['score'],
@@ -129,11 +132,11 @@ const lightsGameOn = async (positions, difficultyTime) => {
 }
 
 // Logica de cambio de color de los cuadrados
-const lightsGame = (index, time) => {
+const lightsGame = (index, time, sound = "on") => {
     return new Promise((resolve) => {
         let square = document.getElementById(index);
-        setTimeout(changeColor.bind(null, square), 400);
-        setTimeout(changeColor.bind(null, square), 500);
+        setTimeout(changeColor.bind(null, square, false,sound), 400);
+        setTimeout(changeColor.bind(null, square, false, sound), 500);
         setTimeout(() => {
             resolve();
         }, time);
@@ -141,11 +144,11 @@ const lightsGame = (index, time) => {
 }
 
 // Cambia el color del cuadradrado
-const changeColor = (square, error = false) => {
+const changeColor = (square, error = false, sound = "on") => {
     if (!error) {
         let audio = document.getElementById("audio");
         square.className = square.className == 'cuadrado' ? 'cuadradoOn' : 'cuadrado';
-        square.className == 'cuadradoOn' ? audio.play() : false;
+        (square.className == 'cuadradoOn' && sound == "on") ? audio.play() : false;
     } else {
         square.className = 'cuadradoError';
         let audio = document.getElementById("audioError");
@@ -175,12 +178,12 @@ const lightsSequence = async (time) => {
     }
     while (i <= 16) {
         let index = i.toString();
-        await lightsGame(i, time);
+        await lightsGame(i, time, "off");
         i++
         i > 16 ? lightsSequence(time) : false;
     }
 }
-
+//lightsSequence(100);
 // Generador de valores para el juego
 const squareGenerator = (cantSquares) => {
     let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -190,17 +193,6 @@ const squareGenerator = (cantSquares) => {
     }
     return numbers.slice(0, cantSquares);
 }
-
-//lightsSequence(80);
-
-// To Do:
-
-// Falta que cuando se gane se prenda todas las luces de verde y msj ganador.
-
-// Error raro cuando se vuelve a mandar start no refreshea bien el array
-// y consulta por el anterior y el actual CORREGIR.
-
-// Que no se puede apretar cuadrados hasta que termine la secuencia.
 
 const secondsCounter = async (counterModal) => {
     let second = 3;
@@ -235,6 +227,7 @@ const startCounter = async () => {
     //document.body.removeChild(counterModal)
 }
 
+
 // Agregar limite de tiempo para apretar cuadrado, sino pierde. 
 
 // Secuencia de 3 segundos para arrancar el juego.
@@ -242,3 +235,9 @@ const startCounter = async () => {
 // Guardar nombre de la persona y puntaje.
 
 // Si pasa de nivel aumentar la velocidad ( 5 levels por dificultad )
+
+// To Do:
+
+// Falta que cuando se gane se prenda todas las luces de verde y msj ganador.
+
+// Que no se puede apretar cuadrados hasta que termine la secuencia.
