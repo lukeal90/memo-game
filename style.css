@@ -6,7 +6,7 @@
 @import url('http://fonts.cdnfonts.com/css/val-2');
 
 body {
-    background-color: black;
+    background-color: rgb(28, 28, 28);
 }
 button{
     box-sizing: border-box;
@@ -68,9 +68,9 @@ button:hover{
 }
 
 .title {
-    font-family: 'VAL', sans-serif;
-    font-size: 120px;
-    color: white;
+    font-size: 100px;
+    color: #FFFFFF;
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
 }
 
 .title2 {
@@ -108,14 +108,16 @@ button:hover{
     height: 100px;
     background-color: #aaff0053;
     border-radius: 10%;
-    transition: all 0.1s;    
+    transition: all 0.1s;  
+    -webkit-box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78); 
+box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);  
 }
 
 .cuadrado:hover {
     transition: all 0.1s;
     background-color: #ABFF00;
     border-radius: 10%;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;    
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;  
 }
 
 .cuadradoOn {
@@ -187,5 +189,9 @@ button:hover{
 label{
     display: flex;
     margin-left: 10px;
+}
+
+.playerFormButton{
+
 }
 

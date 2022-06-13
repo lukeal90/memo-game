@@ -58,8 +58,8 @@ const startGame = async (difficulty) => {
         if(!playerLoose) {
             savePlayerData(score,level);
             level+= 1;
+            showToast(score)
         }
-
     }
 
     console.log("Termino el juego")  
@@ -104,10 +104,12 @@ const changePlayerInfoTable =  (player, score, level) => {
 const waitForClicks = (positions, grilla) => {
     return new Promise((resolve) =>{
         grilla.onclick = (c) => {
-            let positionToCompare = positions.shift();
             let positionClicked = c.target;
-            let correctPosition = checkSquareClicked(positionClicked, positionToCompare, positions);
-            resolve(correctPosition);
+            if(positionClicked.className == "cuadrado"){
+                let positionToCompare = positions.shift();
+                let correctPosition = checkSquareClicked(positionClicked, positionToCompare, positions);
+                resolve(correctPosition);
+            }
         }
     });
 }
@@ -227,13 +229,6 @@ const startCounter = async () => {
     //document.body.removeChild(counterModal)
 }
 
-
-// Agregar limite de tiempo para apretar cuadrado, sino pierde. 
-
-// Secuencia de 3 segundos para arrancar el juego.
-
-// Guardar nombre de la persona y puntaje.
-
 // Si pasa de nivel aumentar la velocidad ( 5 levels por dificultad )
 
 // To Do:
@@ -241,3 +236,19 @@ const startCounter = async () => {
 // Falta que cuando se gane se prenda todas las luces de verde y msj ganador.
 
 // Que no se puede apretar cuadrados hasta que termine la secuencia.
+
+const showToast = (puntos) => {
+    Toastify({
+        text: "Ganaste! Sumaste " + puntos + " puntos!",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
+}
