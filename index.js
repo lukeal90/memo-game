@@ -24,6 +24,7 @@ document.getElementById('startButton').addEventListener('click', function () {
 document.getElementById('playerFormButton').addEventListener('click', function () {
     createPlayer(playerName,0,0);
     changePlayerInfoTable(playerName,0,0);
+    hideInputName(playerName);
 })
 
 //Funcion start game
@@ -104,10 +105,12 @@ const changePlayerInfoTable =  (player, score, level) => {
 const waitForClicks = (positions, grilla) => {
     return new Promise((resolve) =>{
         grilla.onclick = (c) => {
-            let positionToCompare = positions.shift();
             let positionClicked = c.target;
-            let correctPosition = checkSquareClicked(positionClicked, positionToCompare, positions);
-            resolve(correctPosition);
+            if(positionClicked.className == 'cuadrado'){
+                let positionToCompare = positions.shift();
+                let correctPosition = checkSquareClicked(positionClicked, positionToCompare, positions);
+                resolve(correctPosition);
+            }
         }
     });
 }
@@ -224,17 +227,12 @@ const startCounter = async () => {
 
     counterModal = document.getElementById('counter')
     counterModal.remove();
-    //document.body.removeChild(counterModal)
 }
 
-
-// Agregar limite de tiempo para apretar cuadrado, sino pierde. 
-
-// Secuencia de 3 segundos para arrancar el juego.
-
-// Guardar nombre de la persona y puntaje.
-
-// Si pasa de nivel aumentar la velocidad ( 5 levels por dificultad )
+const hideInputName = (playerName) => {
+    let form = document.getElementById('playerForm');
+    playerName.trim().length !== 0 ? form.style.display = "none" : false;
+}
 
 // To Do:
 
