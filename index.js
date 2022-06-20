@@ -59,8 +59,8 @@ const startGame = async (difficulty) => {
         if(!playerLoose) {
             savePlayerData(score,level);
             level+= 1;
+            showToast(score)
         }
-
     }
 
     console.log("Termino el juego")  
@@ -239,3 +239,19 @@ const hideInputName = (playerName) => {
 // Falta que cuando se gane se prenda todas las luces de verde y msj ganador.
 
 // Que no se puede apretar cuadrados hasta que termine la secuencia.
+
+const showToast = (puntos) => {
+    Toastify({
+        text: "Ganaste! Sumaste " + puntos + " puntos!",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
+}
