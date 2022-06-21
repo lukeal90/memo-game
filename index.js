@@ -1,27 +1,37 @@
 import {difficultys} from './difficulty.js'
 
+// const lightsSequence = async () => {
+//     let i = 1;
+//     while (i <= 16) {
+//         let index = i.toString();
+//         await lightsGame(i, 100, "off");
+//         i++
+//         i > 16 ? lightsSequence(100) : false;
+//     }
+// }
 // Limpiamos el estorage
 window.localStorage.clear();
 // Seleccion de dificultad
 let selectDifficulty = document.getElementById('difficulty');
 let difficulty = 0;
 // Seleccion nombre del jugador
-let selectPlayerName = document.getElementById('playerName');
 let playerName = "";
 
 selectDifficulty.addEventListener('change', () => {
     difficulty = parseInt(selectDifficulty.value);
 });
 
-selectPlayerName.addEventListener('change', () => {
-    playerName = selectPlayerName.value;
-});
-
 document.getElementById('startButton').addEventListener('click', function () {
+    if(playerName === "") {
+        alertNoNamed();
+        return;
+    }
     startGame(difficulty);
 })
 
 document.getElementById('playerFormButton').addEventListener('click', function () {
+    let selectPlayerName = document.getElementById('playerName');
+    playerName = selectPlayerName.value;
     createPlayer(playerName,0,0);
     changePlayerInfoTable(playerName,0,0);
     hideInputName(playerName);
@@ -29,17 +39,15 @@ document.getElementById('playerFormButton').addEventListener('click', function (
 
 //Funcion start game
 const startGame = async (difficulty) => {
-    lightsSequence(0);
     const maxLevel = difficultys[difficulty].props.length;
-    let player = localStorage.getItem('player');
+    //let player = localStorage.getItem('player');
     let positions = [];
     let difficultySelected = difficultys[difficulty];
     let level = 1;
     let velocity;
     const grilla = document.getElementById('grilla');
     let playerLoose = false;
-    // To do :hasta que no termine la secuencia que no continue este paso
-    // y no pueda clickear nada
+
     await lightsGameOn(positions, velocity);
 
     while(level <= maxLevel && !playerLoose) {
@@ -48,7 +56,7 @@ const startGame = async (difficulty) => {
         positions = squareGenerator(difficultySelected.props[level-1].squareCant); 
         console.log(positions)
         await resetGameColor(500);
-        await startCounter();   
+        await startCounter(level);   
         await lightsGameOn(positions, velocity);
         while(positions.length > 0 && !playerLoose) {
             let correctPosition = await waitForClicks(positions, grilla);
@@ -63,9 +71,13 @@ const startGame = async (difficulty) => {
         }
     }
 
-    console.log("Termino el juego")  
-    //await resetGameColor(2000);
-    console.log("termino de resetear color")
+    if(!playerLoose) {
+        alertStageClear();
+    }else{
+        resetPlayerScore();
+        alertLoose();
+    }
+    await resetGameColor(2000);
 }
 
 const createPlayer = (name,score,level) => {
@@ -89,6 +101,13 @@ const savePlayerData = (score, level) => {
         playerSaved['levelsPassed']
         );
     
+    window.localStorage.setItem('player', JSON.stringify(playerSaved));    
+}
+
+const resetPlayerScore = () => {
+    let playerSaved = localStorage.getItem('player');
+    playerSaved = JSON.parse(playerSaved);
+    playerSaved['score'] = 0;
     window.localStorage.setItem('player', JSON.stringify(playerSaved));    
 }
 
@@ -122,7 +141,6 @@ const checkSquareClicked = (positionClicked, positionToCompare, positions) => {
     } else {
         changeColor(positionClicked, true)
         correctPosition = false;
-        console.log("Perdiste! Fin del juego!")
     }
     return correctPosition;
 }
@@ -172,21 +190,6 @@ const resetGameColor = (time) => {
     })
 }
 
-// Secuencia animada del juego
-const lightsSequence = async (time) => {
-    let i = 1;
-
-    if (time == 0) {
-        return
-    }
-    while (i <= 16) {
-        let index = i.toString();
-        await lightsGame(i, time, "off");
-        i++
-        i > 16 ? lightsSequence(time) : false;
-    }
-}
-//lightsSequence(100);
 // Generador de valores para el juego
 const squareGenerator = (cantSquares) => {
     let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -197,6 +200,7 @@ const squareGenerator = (cantSquares) => {
     return numbers.slice(0, cantSquares);
 }
 
+// Cuenta regresiva 3,2,1..
 const secondsCounter = async (counterModal) => {
     let second = 3;
     return await new Promise(resolve => setInterval(() => {
@@ -213,12 +217,12 @@ const secondsCounter = async (counterModal) => {
     }, 1000));
 }
 
-const startCounter = async () => {
+const startCounter = async (level) => {
     let counterModal = document.createElement('div');
     counterModal.setAttribute('id', 'counter');
     let modalInside = document.createElement('div');
     modalInside.className = 'counter-inside';
-    let seconds = document.createTextNode("");
+    let seconds = document.createTextNode(`Lv ${level}`);
     modalInside.appendChild(seconds);
     counterModal.appendChild(modalInside);
 
@@ -229,16 +233,11 @@ const startCounter = async () => {
     counterModal.remove();
 }
 
+// Esconde el nombre luego de que lo pone.
 const hideInputName = (playerName) => {
     let form = document.getElementById('playerForm');
     playerName.trim().length !== 0 ? form.style.display = "none" : false;
 }
-
-// To Do:
-
-// Falta que cuando se gane se prenda todas las luces de verde y msj ganador.
-
-// Que no se puede apretar cuadrados hasta que termine la secuencia.
 
 const showToast = (puntos) => {
     Toastify({
@@ -247,11 +246,35 @@ const showToast = (puntos) => {
         newWindow: true,
         close: true,
         gravity: "top",
-        position: "right", // `left`, `center` or `right`
+        position: "right",
         stopOnFocus: true,
         style: {
           background: "linear-gradient(to right, #00b09b, #96c93d)",
         },
-        onClick: function(){} // Callback after click
+        onClick: function(){} 
       }).showToast();
+}
+
+const alertNoNamed = () => {
+    Swal.fire({
+        title: 'Tenes que ponerte un nombre antes de arrancar el juego!',
+        icon: 'warning',
+        confirmButtonText: 'Ok!'
+      })
+}
+
+const alertStageClear = () => {
+    Swal.fire({
+        title: `Lo lograste! Pasaste la dificultad!`,
+        icon: 'success',
+        confirmButtonText: 'Ok!'
+      })
+}
+
+const alertLoose = () => {
+    Swal.fire({
+        title: `Perdiste! Volve a intentarlo!`,
+        icon: 'error',
+        confirmButtonText: 'Ok!'
+      })
 }

@@ -1,6 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 @import url('http://fonts.cdnfonts.com/css/val-2');
@@ -139,14 +140,19 @@ box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);
 }
 
 #difficulty{
-    width: 35%;
+    width: 40%;
     margin: auto;
+    border-radius: 0.6em;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-color: inherit;    
 }
 
 .counter-inside{
-  background-color:rgba(89, 255, 0, 0.528);
-  width:200px;
-  height: 200px;
+  background-color:rgba(89, 255, 0);
+  width:250px;
+  height: 250px;
   padding: 10px 20px;
   margin: 20% auto;
   position: relative;
@@ -160,7 +166,7 @@ box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);
 #counter{
   background-color: rgba(0, 0, 0, 0.5);
   position:fixed;
-  top:150px;
+  top:0;
   right:0;
   bottom:0;
   left:0;  
@@ -170,6 +176,7 @@ box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);
     display: flex;
     width: 50%;
     margin: auto;
+    margin-top: 10px;
 }
 
 #playerInfo{
@@ -191,7 +198,19 @@ label{
     margin-left: 10px;
 }
 
-.playerFormButton{
-
+#playerName{
+    border-radius: 0.6em;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-color: inherit;
 }
 
+#playerFormButton{
+    border-radius: 0.6em;
+    width: 40%;
+}
+
+#playerForm{
+    display: flex;
+}
