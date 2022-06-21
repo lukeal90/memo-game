@@ -1,14 +1,5 @@
 import {difficultys} from './difficulty.js'
 
-// const lightsSequence = async () => {
-//     let i = 1;
-//     while (i <= 16) {
-//         let index = i.toString();
-//         await lightsGame(i, 100, "off");
-//         i++
-//         i > 16 ? lightsSequence(100) : false;
-//     }
-// }
 // Limpiamos el estorage
 window.localStorage.clear();
 // Seleccion de dificultad
@@ -78,8 +69,10 @@ const startGame = async (difficulty) => {
         alertLoose();
     }
     await resetGameColor(2000);
+    return;
 }
 
+// Crea al usuario
 const createPlayer = (name,score,level) => {
     let player = {
         name: name,
@@ -89,6 +82,8 @@ const createPlayer = (name,score,level) => {
     window.localStorage.setItem('player', JSON.stringify(player));
 }
 
+
+// Salva la data del usuario
 const savePlayerData = (score, level) => {
     let playerSaved = localStorage.getItem('player');
     playerSaved = JSON.parse(playerSaved);
@@ -104,13 +99,24 @@ const savePlayerData = (score, level) => {
     window.localStorage.setItem('player', JSON.stringify(playerSaved));    
 }
 
+
+// Resetea la tabla de valores del juego
 const resetPlayerScore = () => {
     let playerSaved = localStorage.getItem('player');
     playerSaved = JSON.parse(playerSaved);
     playerSaved['score'] = 0;
+    playerSaved['levelsPassed'] = 0;
+
+    changePlayerInfoTable(
+        playerSaved['name'],        
+        playerSaved['score'],
+        playerSaved['levelsPassed']
+        );
+
     window.localStorage.setItem('player', JSON.stringify(playerSaved));    
 }
 
+// Cambia valores en la tabla del juego
 const changePlayerInfoTable =  (player, score, level) => {
     let playerName = document.getElementById('playerInfoName');
     let playerScore = document.getElementById('playerInfoScore');
@@ -121,6 +127,7 @@ const changePlayerInfoTable =  (player, score, level) => {
     playerLevel.textContent = level;
 }
 
+// Espera al click para que luego continue el juego
 const waitForClicks = (positions, grilla) => {
     return new Promise((resolve) =>{
         grilla.onclick = (c) => {
@@ -134,6 +141,7 @@ const waitForClicks = (positions, grilla) => {
     });
 }
 
+// Verifica si el cuadrado que se toco es el correcto
 const checkSquareClicked = (positionClicked, positionToCompare, positions) => {
     let correctPosition = true;
     if (positionClicked.id == positionToCompare) {
@@ -152,7 +160,7 @@ const lightsGameOn = async (positions, difficultyTime) => {
         }
 }
 
-// Logica de cambio de color de los cuadrados
+// Toma la secuencia de cuadrados y cambiar el color con un tiempo a cada uno
 const lightsGame = (index, time, sound = "on") => {
     return new Promise((resolve) => {
         let square = document.getElementById(index);
@@ -217,6 +225,7 @@ const secondsCounter = async (counterModal) => {
     }, 1000));
 }
 
+// Crea modal del contador
 const startCounter = async (level) => {
     let counterModal = document.createElement('div');
     counterModal.setAttribute('id', 'counter');
@@ -239,6 +248,7 @@ const hideInputName = (playerName) => {
     playerName.trim().length !== 0 ? form.style.display = "none" : false;
 }
 
+// Muestra puntaje por level
 const showToast = (puntos) => {
     Toastify({
         text: "Ganaste! Sumaste " + puntos + " puntos!",
@@ -255,6 +265,7 @@ const showToast = (puntos) => {
       }).showToast();
 }
 
+// Alerta que falta nombre
 const alertNoNamed = () => {
     Swal.fire({
         title: 'Tenes que ponerte un nombre antes de arrancar el juego!',
@@ -263,6 +274,7 @@ const alertNoNamed = () => {
       })
 }
 
+// Alerta paso de nivel
 const alertStageClear = () => {
     Swal.fire({
         title: `Lo lograste! Pasaste la dificultad!`,
@@ -271,6 +283,7 @@ const alertStageClear = () => {
       })
 }
 
+// Alerta perdio
 const alertLoose = () => {
     Swal.fire({
         title: `Perdiste! Volve a intentarlo!`,
@@ -278,3 +291,13 @@ const alertLoose = () => {
         confirmButtonText: 'Ok!'
       })
 }
+// Secuencia de juego animada a futuro. 
+// const lightsSequence = async () => {
+//     let i = 1;
+//     while (i <= 16) {
+//         let index = i.toString();
+//         await lightsGame(i, 100, "off");
+//         i++
+//         i > 16 ? lightsSequence(100) : false;
+//     }
+// }
