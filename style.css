@@ -1,3 +1,7 @@
+:root{
+    font-size: 10px;
+}
+
 * {
     margin: 0px;
     padding: 0px;
@@ -100,13 +104,13 @@ button:hover{
         ". . . ."
         ". . . ."
         ". . . .";
-    grid-gap: 70px;
+    grid-gap: 2rem;
     justify-items: center;
 }
 
 .cuadrado {
-    width:  100px;
-    height: 100px;
+    width:  6rem;
+    height: 6rem;
     background-color: #aaff0053;
     border-radius: 10%;
     transition: all 0.1s;  
@@ -122,8 +126,8 @@ box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);
 }
 
 .cuadradoOn {
-    width:  100px;
-    height: 100px;
+    width:  6rem;
+    height: 6rem;
     transition: all 0.1s;
     background-color: #ABFF00;
     border-radius: 10%;
@@ -190,7 +194,7 @@ box-shadow: 5px 6px 14px 1px rgba(0,0,0,0.78);
     height: 170px;
     box-shadow: 0 0 10px 0 #ABFF00 inset, 0 0 10px 4px #ABFF00;    
     color: white;
-    font-size: 30px;
+    font-size: 2rem;
 }
 
 label{
