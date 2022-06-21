@@ -82,7 +82,7 @@ button:hover{
 .tablero {
     width: 50%;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
 }
@@ -248,8 +248,8 @@ label{
     }
     
     .cuadrado {
-        width:  4.5rem;
-        height: 4.5rem;
+        width:  4rem;
+        height: 4rem;
         background-color: #aaff0053;
         border-radius: 10%;
         transition: all 0.1s;  
@@ -265,8 +265,8 @@ label{
     }
     
     .cuadradoOn {
-        width:  4.5rem;
-        height: 4.5rem;
+        width:  4rem;
+        height: 4rem;
         transition: all 0.1s;
         background-color: #ABFF00;
         border-radius: 10%;
