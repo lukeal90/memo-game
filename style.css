@@ -274,8 +274,8 @@ label{
     }
     
     .cuadradoError {
-        width:  100px;
-        height: 100px;
+        width:  4rem;
+        height: 4rem;
         transition: all 0.1s;
         background-color: #ff0000;
         border-radius: 10%;
