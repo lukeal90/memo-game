@@ -215,7 +215,7 @@ label{
     display: flex;
 }
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1450px) {
     #playerInfo{
         position: fixed;
         display: flex;
